@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 dotenv.config();
-import mongoose from "mongoose";
 import app from "./app";
 import connectDB from "./config/db";
 
@@ -14,16 +13,13 @@ connectDB().then(() => {
   });
 });
 
-// mongoose
-// .connect(process.env.MONGO_URI as string)
-// .then(() => {
-//     // console.log(process.env.MONGO_URI);
-//     console.log("MongoDB Connected");
+app.get("/api/health", (req, res) => {
+  res.json({
+    success: true,
+    message: "Backend is reachable",
+  });
+});
 
-//     app.listen(PORT, () => {
-//         console.log(`Server running on ${PORT}`);
-//     });
-// })
-// .catch(err => {
-//     console.log(err);
-// });
+app.listen(5000, "0.0.0.0", () => {
+  console.log("Server running on port 5000");
+});

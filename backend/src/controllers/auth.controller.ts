@@ -34,7 +34,8 @@ export const register = async (req: Request, res: Response) => {
         email: user.email,
       },
     });
-  } catch (error) {
+  } 
+  catch (error) {
     res.status(500).json({
       success: false,
       message: "Server Error",
