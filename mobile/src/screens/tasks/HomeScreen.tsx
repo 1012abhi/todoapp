@@ -12,7 +12,6 @@ import {
   Modal,
   Platform,
   RefreshControl,
-  SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
@@ -23,7 +22,7 @@ import {
 import DateTimePicker, {
   DateTimePickerAndroid,
 } from "@react-native-community/datetimepicker";
-
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
   createTodo,
   deleteTodo,
