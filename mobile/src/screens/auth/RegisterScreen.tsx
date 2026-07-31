@@ -3,7 +3,6 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
@@ -12,6 +11,7 @@ import {
 } from "react-native";
 
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { AuthStackParamList } from "../../navigation/AuthNavigator";
 import { useAuth } from "../../context/AuthContext";
@@ -75,8 +75,8 @@ const RegisterScreen = ({ navigation }: Props) => {
       Alert.alert(
         "Register Error",
         error?.response?.data?.message ||
-          error?.message ||
-          "Something went wrong"
+        error?.message ||
+        "Something went wrong"
       );
     } finally {
       setLoading(false);
@@ -109,6 +109,9 @@ const RegisterScreen = ({ navigation }: Props) => {
             value={name}
             onChangeText={setName}
             autoCapitalize="words"
+            autoCorrect={false}
+            textContentType="name"
+            autoComplete="name"
             editable={!loading}
           />
 
@@ -119,10 +122,13 @@ const RegisterScreen = ({ navigation }: Props) => {
             value={email}
             onChangeText={setEmail}
             autoCapitalize="none"
+            autoCorrect={false}
             keyboardType="email-address"
+            textContentType="emailAddress"
+            autoComplete="email"
+            importantForAutofill="yes"
             editable={!loading}
           />
-
           <TextInput
             style={styles.input}
             placeholder="Password"
@@ -130,6 +136,11 @@ const RegisterScreen = ({ navigation }: Props) => {
             value={password}
             onChangeText={setPassword}
             secureTextEntry
+            autoCapitalize="none"
+            autoCorrect={false}
+            textContentType="newPassword"
+            autoComplete="password-new"
+            importantForAutofill="yes"
             editable={!loading}
           />
 
@@ -140,9 +151,13 @@ const RegisterScreen = ({ navigation }: Props) => {
             value={confirmPassword}
             onChangeText={setConfirmPassword}
             secureTextEntry
+            autoCapitalize="none"
+            autoCorrect={false}
+            textContentType="newPassword"
+            autoComplete="password-new"
+            importantForAutofill="yes"
             editable={!loading}
           />
-
           <TouchableOpacity
             style={[
               styles.button,
