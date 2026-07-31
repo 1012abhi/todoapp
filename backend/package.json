@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon --watch src --exec ts-node src/server.ts",
+    "build": "tsc",
     "start": "ts-node src/server.ts"
   },
   "keywords": [],
