@@ -15,6 +15,8 @@ export const protect = (
   next: NextFunction
 ) => {
   try {
+    console.log("AUTH HEADER:", req.headers.authorization);
+
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -25,6 +27,8 @@ export const protect = (
     }
 
     const token = authHeader.split(" ")[1];
+
+    console.log("TOKEN RECEIVED:", token);
 
     if (!token) {
       return res.status(401).json({
@@ -38,10 +42,14 @@ export const protect = (
       process.env.JWT_SECRET as string
     ) as JwtPayload;
 
+    console.log("DECODED:", decoded);
+
     req.userId = decoded.id;
 
     next();
   } catch (error) {
+    console.error("AUTH ERROR:", error);
+
     return res.status(401).json({
       success: false,
       message: "Invalid or expired token",

@@ -10,6 +10,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use((req, res, next) => {
+  console.log("REQUEST:", req.method, req.originalUrl);
+  console.log("BODY:", req.body);
+  next();
+});
+
 app.get("/", (_, res) => {
   res.json({
     success: true,

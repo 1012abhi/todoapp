@@ -103,32 +103,35 @@ export const AuthProvider = ({
     setUser(data.user);
   };
 
-  const register = async (
-    name: string,
-    email: string,
-    password: string
-  ) => {
-    const response = await registerUser({
-      name,
-      email,
-      password,
-    });
+const register = async (
+  name: string,
+  email: string,
+  password: string
+) => {
+  const response = await registerUser({
+    name,
+    email,
+    password,
+  });
 
-    const { token, user } = response;
+  console.log("REGISTER RESPONSE FROM API:", response);
+  console.log("TOKEN FROM API:", response?.token);
 
-    await AsyncStorage.setItem("token", token);
-    await AsyncStorage.setItem(
-      "user",
-      JSON.stringify(user)
-    );
+  const { token, user } = response;
 
-    setToken(token);
-    setUser(user);
+  if (!token) {
+    throw new Error("Token was not returned by server");
+  }
 
-    // Registration successful.
-    // User can login after registration.
-  };
+  await AsyncStorage.setItem("token", token);
+  await AsyncStorage.setItem(
+    "user",
+    JSON.stringify(user)
+  );
 
+  setToken(token);
+  setUser(user);
+};
   const logout = async () => {
     await AsyncStorage.removeItem("token");
     await AsyncStorage.removeItem("user");

@@ -1,6 +1,6 @@
 import axios from "axios";
-import { API_URL } from "../constants/config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { API_URL } from "../constants/config";
 
 const api = axios.create({
   baseURL: API_URL,
@@ -10,8 +10,6 @@ const api = axios.create({
   timeout: 10000,
 });
 
-
-// Automatically attach JWT token
 api.interceptors.request.use(
   async (config) => {
     const token = await AsyncStorage.getItem("token");
@@ -20,24 +18,21 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
 
+    console.log(
+      "API REQUEST:",
+      `${config.baseURL ?? ""}${config.url ?? ""}`
+    );
+
+    console.log(
+      "TOKEN:",
+      token ? "Present" : "Missing"
+    );
+
     return config;
   },
   (error) => {
     return Promise.reject(error);
   }
 );
-
-
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-
-// api.interceptors.request.use(async (config) => {
-//   const token = await AsyncStorage.getItem("token");
-
-//   if (token) {
-//     config.headers.Authorization = `Bearer ${token}`;
-//   }
-
-//   return config;
-// });
 
 export default api;

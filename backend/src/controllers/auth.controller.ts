@@ -25,25 +25,39 @@ export const register = async (req: Request, res: Response) => {
       password: hashedPassword,
     });
 
-    res.status(201).json({
+    const token = jwt.sign(
+      { id: user._id.toString() },
+      process.env.JWT_SECRET as string,
+      {
+        expiresIn: "7d",
+      }
+    );
+
+    console.log("REGISTER TOKEN:", token);
+
+    const responseData = {
       success: true,
       message: "User registered successfully",
+      token,
       user: {
         id: user._id,
         name: user.name,
         email: user.email,
       },
-    });
-  } 
-  catch (error) {
-    res.status(500).json({
+    };
+
+    console.log("REGISTER RESPONSE:", responseData);
+
+    return res.status(201).json(responseData);
+  } catch (error) {
+    console.error("REGISTER ERROR:", error);
+
+    return res.status(500).json({
       success: false,
       message: "Server Error",
-      error,
     });
   }
 };
-
 export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
